@@ -17,8 +17,8 @@ RUN wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2
 
 ENV PATH="/opt/riscv-toolchain/bin:$PATH"
 
-RUN wget https://gitlab.com/api/v4/projects/giomasce%2Fdqib/jobs/artifacts/master/download?job=convert_riscv64-virt -O /tmp/dqib_riscv64-virt.zip \
-    && unzip /tmp/dqib_riscv64-virt.zip -d /opt \
+COPY dqib_riscv64-virt.zip /tmp/dqib_riscv64-virt.zip
+RUN unzip /tmp/dqib_riscv64-virt.zip -d /opt \
     && rm /tmp/dqib_riscv64-virt.zip
 
 COPY riscv_qemu.sh /usr/local/bin/riscv_qemu.sh
