@@ -1,0 +1,54 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "qemu",
+            "type": "shell",
+            "command": "riscv_qemu.sh",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "showReuseMessage": false,
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "g++",
+            "type": "shell",
+            "command": [
+                "riscv64-unknown-linux-gnu-g++",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+            ],
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "gdbserver",
+            "type": "shell",
+            "command": [
+                "sshpass -p",
+                "debian", // password
+                "ssh",
+                "debian@localhost -p 22222", // user@host -p port
+                "'pkill gdbserver; gdbserver",
+                ":1234", // gdbserver port in qemu
+                "/mnt/${relativeFileDirname}/${fileBasenameNoExtension}", // path to file in qemu
+                "'"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": ".*"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^Process \\S* created; pid = \\d+",
+                    "endsPattern": "^Listening on port \\d+",
+                }
+            }
+        }
+    ]
+}
