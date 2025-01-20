@@ -56,6 +56,13 @@ riscv64-unknown-linux-gnu-gdb foo
 (gdb) target remote localhost:1234
 ```
 
+**NOTE:** When remote debugging, the loading of shared libraries does not notify the host. So you need to manually load the shared libraries in the host gdb if you want to set breakpoints in them.
+
+```bash
+(gdb) info sharedlibrary
+(gdb) sharedlibrary your_shared_library.so
+```
+
 ### VSCode Configuration
 
 The purpose of my giving the vscode configurations is to give a reference for you to configure your own. So the configurations only implement some basic functions like compile a single file and debug it. If you want to use it in a more complex project, you need to modify it by yourself.
@@ -68,11 +75,14 @@ These configurations are under `vscode_config` folder and not included in the do
 
 `settings.json` and `.clangd` are only used for the clangd extension in VSCode to make it search the RISC-V GNU Toolchain headers. If you don't use the clangd extension or you have your own configurations, you can ignore them.
 
-### About the Huge Size of the Docker Image (~5GB)
+About the shared library loading problem in gdb, I have not found a good way and good extension to automatically load them. When using the default cpp extension, a simple way is to add `-exec sharedlibrary your_shared_library.so` in the inspect panel.
+
+### About the Huge Size of the Docker Image (~5.5GB)
 
 Size of tools:
-- RISC-V GNU Toolchain: ~2.5GB
-- apt packages: ~1GB
+- RISC-V GNU Toolchain: ~3GB
+- QEMU: ~500MB
+- apt packages: ~500MB
 - Debian Image: ~1GB
 
 What can I say.
