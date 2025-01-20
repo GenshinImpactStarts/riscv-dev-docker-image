@@ -8,7 +8,7 @@ SHARED_DIR=/path/to/your/shared  # Change this to your shared directory
 # Default shared directory in guest is /mnt. You can change it in /etc/fstab
 # hostshare /path/to/mount/point 9p trans=virtio 0 0
 
-qemu-system-riscv64 -nographic -machine virt -m $MEM_SIZE -smp $CPU_NUM -cpu rv64 \
+qemu-system-riscv64 -nographic -machine virt -m $MEM_SIZE -smp $CPU_NUM -cpu rv64,v=true,zba=true,vlen=256 \
     -bios /usr/lib/riscv64-linux-gnu/opensbi/generic/fw_jump.elf \
     -kernel /usr/lib/u-boot/qemu-riscv64_smode/uboot.elf \
     -object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-device,rng=rng0 \
